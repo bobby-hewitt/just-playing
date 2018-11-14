@@ -1,0 +1,30 @@
+@import '~styles/colors.scss';
+
+.mouseHandler{
+	height:100vh;
+	width:100vw;
+	/* background:green; */
+	position: relative;
+	.dot{
+		animation: innr--animation 0.4s linear forwards;
+		transform:translate(-50%,-50%);
+		border-radius: 50%;
+		position: absolute;
+		&.grey{background:$grey};
+		&.cream{background:$cream};
+		&.maroon{background:$maroon};
+		&.orange{background:$orange};
+		&.blue{background:$blue};
+		&.brown{background:$brown};
+		&.brown2{background:$brown2};
+		&.rose{background:$rose};
+		&.peach{background:$peach};
+
+	}
+}
+
+
+@keyframes innr--animation {
+    0%   {opacity:1}
+    100% {opacity:0 }
+}

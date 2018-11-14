@@ -1,0 +1,65 @@
+.relative{
+	/* position: relative; */
+	/* width:100%; */
+	/* height:100%; */
+}
+
+
+//xs
+@media only screen and (max-width: 576px) {
+    .hideXS{
+    	display: none;
+    }
+
+}
+//sm
+@media only screen and (min-width: 576px) {
+    .hideSM{
+    	display: none;
+    }
+    .showXS{
+    	display: none;
+    }
+}
+//md
+@media only screen and (min-width: 768px) {
+    .hideSM{
+    	display: none;
+    }
+    .showXS{
+    	display: none;
+    }
+    .showSM{
+    	display: none;
+    }
+}
+//lg
+@media only screen and (min-width: 992px) {
+    .hideLG{
+    	display: none;
+    }
+    .showXS{
+    	display: none;
+    }
+    .showSM{
+    	display: none;
+    }
+    .showMD{
+    	display: none;
+    }
+}
+//xl
+@media only screen and (min-width: 1200px) {
+    .hideXL{
+    	display: none;
+    }
+    .showXS{
+    	display: none;
+    }
+    .showSM{
+    	display: none;
+    }
+    .showMD{
+    	display: none;
+    }
+}

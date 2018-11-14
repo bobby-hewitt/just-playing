@@ -1,0 +1,18 @@
+@mixin row {
+	display: -webkit-flex; /* Safari */
+	display: flex;
+	-webkit-flex-direction: row-reverse; /* Safari 6.1+ */
+	flex-direction: row-reverse; 
+}
+
+@mixin fullScreen {
+	position: relative;
+	height:100vh;
+	width:100vw;
+}
+
+@mixin backgroundImage($path) {
+	background-image: url($path);
+	background-size:cover;
+	background-position: center;
+}
