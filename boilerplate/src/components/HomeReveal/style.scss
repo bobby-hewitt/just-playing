@@ -11,7 +11,7 @@
 	width:100%;
 	.homeReveal__title{
 		margin:$v-spacing;
-		transition: all 0.3s ease ;
+		transition: all $animation-timing ease ;
 		h5{
 			color:$grey;
 			font-weight:900;	
@@ -24,16 +24,17 @@
 	}
 
 	.homeReveal__scrubber{
-		transition: all 0.3s ease ;
+		transition: height $animation-timing ease, width $animation-timing ease $animation-timing/2;
 		position: relative;
 		border-radius: 3px;
 		height:30px;
-		
-		width: 600px;
+		width: 60vw;
+		max-width: 600px;
 		background:$white;
 		&.full{
 			height:100vh;
 			width: 100vw;
+			max-width:100vw;
 		}
 		.homeReveal__scrubber--inner{
 			transition: all 0.01s linear;

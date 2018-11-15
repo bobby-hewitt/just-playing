@@ -20,7 +20,9 @@ class Home extends Component {
 	}
 
 	onMouseMove(isClicked){
-		if (isClicked) this.setState({width: this.state.width + 2})
+		if (isClicked && this.state.width < 100) {
+			this.setState({width: this.state.width + 2})
+		} 
 	}
 	
 
@@ -29,7 +31,7 @@ class Home extends Component {
 			<MouseHandlerComponentWrapper
 				onMouseMove={this.onMouseMove.bind(this)}>
 				<div className="home" >
-					<HomeReveal 
+					<HomeReveal
 						width={this.state.width}
 						push={this.props.push}
 						showButton={this.state.showButton}
