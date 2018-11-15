@@ -1,17 +1,21 @@
 import React, { Component } from 'react'
 import './style.scss'
-import Button from 'components/Button'
 
 export default class HomeReveal extends Component {
+
+	
+
 	render(){
-		console.log(this.props.showButton)
 		return(
 			<div className="homeReveal">
-				<div className="homeReveal__content">
-					<h1>Hi</h1>
-					<div className="homeReveal__overlay" style={{width: this.props.width + '%'}} />
+			
+				<div className={this.props.width >= 100 ? "homeReveal__title hidden" : "homeReveal__title"}>
+					<h5>Click drag to load</h5>
 				</div>
-				<Button text="Explore" isVisible={this.props.showButton} isActive/>
+			
+				<div className={this.props.width >= 100 ? "homeReveal__scrubber full" : "homeReveal__scrubber"}>
+					<div className="homeReveal__scrubber--inner" style={{width:this.props.width + '%'}} />
+				</div>
 			</div>
 		)
 	}

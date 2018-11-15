@@ -2,14 +2,19 @@ import React, { Component } from 'react'
 import './style.scss'
 import Dot from '../Dot'
 import { random } from '../../helpers'
-export default class MouseHandler extends Component {
+
+export default class MouseEffects extends Component {
 
 	constructor(props){
 		super(props)
 		this.timeouts = []
 		this.state = {
-			mouse: {x: 0, y:0}
+			mouse: {x: this.props.x || 0, y: this.props.y || 0}
 		}
+	}
+	//set gloabl ref to this
+	componentDidMount(){
+		this.props.onMount(this)
 	}
 	//cleanup
 	componentWillUnmount(){
@@ -30,11 +35,13 @@ export default class MouseHandler extends Component {
 	}
 	onMouseUp(e){
 		if (e.persist) e.persist()
-		cancelAnimationFrame(this.animationFrame)
-		this.setState({mouseDown: false, followDots: []}, () => {
-			this.props.onMouseUp()
-			this.onRotatingDots(e)
-		})
+		if (this.state.mouseDown){
+			cancelAnimationFrame(this.animationFrame)
+			this.setState({mouseDown: false, followDots: []}, () => {
+				this.props.onMouseUp()
+				this.onRotatingDots(e)
+			})
+		}
 	}
 	onMouseMove(evt, isTouch){
 		if (this.state.mouseDown){
@@ -64,15 +71,9 @@ export default class MouseHandler extends Component {
 		})
 	}
 	render(){
+
 		return(
-			<div 
-				className="mouseHandler" 
-				onMouseMove={this.onMouseMove.bind(this)} 
-				onMouseDown={this.onMouseDown.bind(this)} 
-				onMouseUp={this.onMouseUp.bind(this)}
-				onTouchMove={this.onMouseMove.bind(this)} 
-				onTouchStart={this.onMouseDown.bind(this)} 
-				onTouchEnd={this.onMouseUp.bind(this)}>
+			<div className="mouseHandler" >
 				{this.state.mouseDown && this.state.followDots && this.state.followDots.map((d,i) => {
 					return(
 						<Dot key={i} {...d}/>

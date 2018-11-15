@@ -1,13 +1,59 @@
 
-import React from 'react';
-import { Route, Switch } from 'react-router'
-import Home from './containers/Home'
-import MouseHandler from './components/MouseHandler'
+import React, { Component } from 'react';
+import { Route } from 'react-router'
+import { push } from 'connected-react-router'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import MouseEffects from './components/MouseEffects'
+import { setMouseHandler } from 'actions/ui'
+import Home from 'containers/Home'
+class Routes extends Component {
 
-const Routes = () => (   
-      <div className="app__container">
-        <Route exact path="/" component={Home} />
-      </div>
-)
+	constructor(props){
+		super(props)
+		this.state = {
 
-export default Routes;
+		}
+	}
+
+	onMouseMove(){
+
+	}
+
+	onMouseUp(){
+
+	}
+
+	onMouseHandlerMount(mouseHandler){
+		this.props.setMouseHandler(mouseHandler)
+	}
+
+	render(){
+		return(
+			<div className="app__container">
+		        <Route exact path="/" component={Home} />
+		        <MouseEffects
+					onMount={this.onMouseHandlerMount.bind(this)}
+					onMouseMove={this.onMouseMove.bind(this)}
+					onMouseUp={this.onMouseUp.bind(this)}
+				/>
+		    </div>
+		)
+	}
+}
+
+
+const mapStateToProps = state => ({
+	
+
+})
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+	setMouseHandler,
+	push: (path) => push(path)
+}, dispatch)
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Routes)

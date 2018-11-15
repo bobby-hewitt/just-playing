@@ -4,7 +4,9 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import './style.scss'
 //components
-import MouseHandler from 'components/MouseHandler'
+import MouseHandlerComponentWrapper from 'components/MouseHandlerComponentWrapper'
+
+
 import HomeReveal from 'components/HomeReveal'
 
 
@@ -12,44 +14,29 @@ class Home extends Component {
 
 	constructor(props){
 		super(props)
-		this.state = {
-			count: 0,
-			reveal: 100,
+		this.state ={
+			width:0
 		}
 	}
 
-	onMouseMove(){
-		if (this.state.reveal > 0){
-			this.setState({
-				count: this.state.count += 1,
-				reveal: 100 - this.state.count * 5
-			})
-		} 
+	onMouseMove(isClicked){
+		if (isClicked) this.setState({width: this.state.width + 2})
 	}
-	onMouseUp(){
-		if (this.state.reveal <= 0){
-			setTimeout(() => {
-				this.setState({
-					showButton: true
-				})
-			},700)
-		}
-	}
+	
+
 	render(){
 		return(
-			<div className="home container-fluid">
-				
-				<HomeReveal 
-					width={this.state.reveal} 
-					showButton={this.state.showButton}
-				/>
-				{!this.state.showButton &&
-					<MouseHandler 
-						onMouseMove={this.onMouseMove.bind(this)}
-						onMouseUp={this.onMouseUp.bind(this)}
-					/>
-				}
-			</div>
+			<MouseHandlerComponentWrapper
+				onMouseMove={this.onMouseMove.bind(this)}>
+				<div className="home" >
+					<HomeReveal 
+						width={this.state.width}
+						push={this.props.push}
+						showButton={this.state.showButton}
+					/>	
+				</div>
+			</MouseHandlerComponentWrapper>
+			
 		)
 	}
 }
