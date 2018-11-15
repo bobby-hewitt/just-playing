@@ -5,12 +5,9 @@
     100% {transform:translateX(30px)scale(0);opacity:0 }
 }
 .dot{
+	animation: inner--animation 0.4s linear forwards;
 	top:0;
 	left:0;
-	
-		animation: inner--animation 0.4s linear forwards;
-	
-	
 	transform:translate(-50%,-50%);
 	border-radius: 50%;
 	position: absolute;

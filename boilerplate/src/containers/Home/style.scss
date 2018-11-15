@@ -2,58 +2,11 @@
 @import '~styles/mixins.scss';
 
 .home{	
-	background:$blue;
-	.home__background--container{
-		opacity:0;
-		h1{
-			height:100%;
-			vertical-align: center;
-		}
-		position: absolute;
-		top:0;
-		left:0;
-		width:100%;
-		height:100%;
-		background:$blue;
-		.title{
-				transition:all 0.3s ease;
-				position: absolute;
-				
-				width:100vw;
-				text-align: center;
-			}
-		.home__background--overlay{
-			overflow: hidden;
-			transition:all 0.3s ease;
-			transform:translateX(50px);
-			position: absolute;
-			top:0;
-			right:0;
-			width:50%;
-			height:100%;
-			background: $grey;
-			.title{
-				margin-left:-50vw;
-				margin-top:20px;
-			}
-			&:hover{
-				transform:translateX(0px);
-				.title{
-					margin-top:0px;
-				}
-			}
-
- 			.triangle{
- 				position: absolute;
- 				top:0;
- 				left:-100px;
- 				width: 0; 
- 				
- 				border-top: 100vh solid transparent;
-				border-bottom: 0px solid transparent;   
-				border-right:100px solid $grey; 
- 			}
-  
-		}
-	}
+	
+	position: relative;
+	top:0;
+	left:0;
+	height: 100vw;
+	width:100vh;
+	
 }

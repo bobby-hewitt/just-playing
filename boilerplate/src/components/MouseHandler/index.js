@@ -1,61 +1,69 @@
 import React, { Component } from 'react'
 import './style.scss'
-import Dot from 'effects/dot'
-import Test from 'effects/test'
+import Dot from '../Dot'
+import { random } from '../../helpers'
 export default class MouseHandler extends Component {
 
 	constructor(props){
 		super(props)
-		this.colors = ['grey','cream','maroon','orange','brown','brown2','rose','peach']
+		this.timeouts = []
 		this.state = {
-			clicked: false,
-			dots: [],
 			mouse: {x: 0, y:0}
 		}
 	}
-
-	onMouseMove(evt, isTouch){
-		if (this.state.mouseDown){
-			let isTouch = evt.nativeEvent && evt.nativeEvent.touches && evt.nativeEvent.touches[0]
-			let x = isTouch ? evt.nativeEvent.touches[0].clientX : evt.clientX
-			let y = isTouch ? evt.nativeEvent.touches[0].clientY : evt.clientY
-			this.setState({mouse: {x, y}})
-		}	
+	//cleanup
+	componentWillUnmount(){
+		for (var i in this.timeouts) clearTimeout(this.timeouts[i])
+		cancelAnimationFrame(this.animationFrame)
 	}
-
-	onRotatingDots(e){
-		this.setState({rotatingDots: {x: this.state.mouse.x, y: this.state.mouse.y, delay: 25, max: 12}}, () => {
-			setTimeout(() => this.setState({rotatingDots: false}), 500)
-		})
+	//mouse handlers
+	getXY(evt){
+		let isTouch = evt.nativeEvent && evt.nativeEvent.touches && evt.nativeEvent.touches[0]
+		let x = isTouch ? evt.nativeEvent.touches[0].clientX : evt.clientX
+		let y = isTouch ? evt.nativeEvent.touches[0].clientY : evt.clientY
+		return {x,y}
 	}
-
-	onFollowDots(e){
-		let newDots = this.state.dots 
-		let newDot = {x: this.state.mouse.x, y: this.state.mouse.y}
-		newDots.push(newDot)
-		this.setState({dots: newDots}, () => {
-			this.animationFrame = requestAnimationFrame(this.onFollowDots.bind(this, {x: this.state.mouse.x, y: this.state.mouse.y}))
-		})
-	}
-
-	onMouseDown(){
-		this.setState({mouseDown: true}, () => {
+	onMouseDown(e){
+		this.setState({mouseDown: true, mouse: this.getXY(e)}, () => {
 			this.onFollowDots()
 		})
 	}
-
 	onMouseUp(e){
 		if (e.persist) e.persist()
 		cancelAnimationFrame(this.animationFrame)
-		this.setState({mouseDown: false, dots: []}, () => {
+		this.setState({mouseDown: false, followDots: []}, () => {
+			this.props.onMouseUp()
 			this.onRotatingDots(e)
 		})
 	}
-
-
-
+	onMouseMove(evt, isTouch){
+		if (this.state.mouseDown){
+			this.setState({mouse: this.getXY(evt)}, () => {
+				this.props.onMouseMove()
+			})
+		}	
+	}
+	//animations
+	onRotatingDots(e){
+		this.setState({rotatingDots: []}, () => {
+			for (var i = 0; i < 12; i++){
+				this.timeouts[i] = setTimeout(() => {
+					let rotatingDots = Object.assign([], this.state.rotatingDots)
+					rotatingDots.push(random(5,15) + 'px')
+					this.setState({rotatingDots: rotatingDots})
+				}, i * 25)
+			}
+		})
+	}
+	onFollowDots(e){
+		let newDots = this.state.followDots || []
+		let newDot = {x: this.state.mouse.x, y: this.state.mouse.y}
+		newDots.push(newDot)
+		this.setState({followDots: newDots}, () => {
+			this.animationFrame = requestAnimationFrame(this.onFollowDots.bind(this, {x: this.state.mouse.x, y: this.state.mouse.y}))
+		})
+	}
 	render(){
-
 		return(
 			<div 
 				className="mouseHandler" 
@@ -65,13 +73,21 @@ export default class MouseHandler extends Component {
 				onTouchMove={this.onMouseMove.bind(this)} 
 				onTouchStart={this.onMouseDown.bind(this)} 
 				onTouchEnd={this.onMouseUp.bind(this)}>
-				{this.state.mouseDown && this.state.dots.map((d,i) => {
+				{this.state.mouseDown && this.state.followDots && this.state.followDots.map((d,i) => {
 					return(
-						<Dot absolute key={i} {...d}/>
+						<Dot key={i} {...d}/>
 					)
 				})}
 				{this.state.rotatingDots && 
-					<Test {...this.state.rotatingDots} />
+					<div className="mouseHandler__rotate--container"style={{top: this.state.mouse.y, left: this.state.mouse.x }} > 
+						{this.state.rotatingDots.map((d, i) => {
+							return(
+								<div className="relative" key={i} style={{transform:`rotate(${(i-12 / 2) * (360 / 12)}deg)`}} >
+									<Dot />
+								</div>
+							)
+						})}
+					</div>
 				}
 			</div>
 		)

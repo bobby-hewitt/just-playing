@@ -1,0 +1,14 @@
+@import '~styles/colors.scss';
+
+.button{
+	transition: all 0.3s ease;
+	opacity:0;
+	padding: 7px 10px 9px 10px;
+	background:$grey;
+
+	color:$white;
+	border-radius: 3px;
+	&.isVisible{
+		opacity:1
+	}
+}

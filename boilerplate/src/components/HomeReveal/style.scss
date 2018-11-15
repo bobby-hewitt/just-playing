@@ -1,0 +1,27 @@
+@import '~styles/colors.scss';
+
+.homeReveal{
+	width:100%;
+	height:100%;
+	position: absolute;
+	top:0;
+	left:0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	h1{
+		color:$white;
+	}
+	.homeReveal__content{
+		position: relative;
+		.homeReveal__overlay{
+			position: absolute;
+			top:0;
+			right:0;
+			height:100%;
+			background:$blue;
+		}
+	}
+	
+}
